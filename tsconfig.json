@@ -5,6 +5,7 @@
 		"checkJs": false,
 		"esModuleInterop": false,
 		"noEmit": true,
-		"jsx": "preserve"
+		"jsx": "preserve",
+		"strict": false
 	}
 }

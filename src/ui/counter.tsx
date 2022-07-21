@@ -1,17 +1,26 @@
 import * as React from "react";
 
-class Counter extends React.Component {
-	state = {
+interface CounterProps {
+	initialCount?: number;
+	className?: string;
+}
+
+interface CounterState {
+	count: number;
+}
+
+class Counter extends React.Component<CounterProps, CounterState> {
+	state: CounterState = {
 		count: this.props.initialCount ?? 0,
 	};
 
-	constructor(props) {
+	constructor(props: CounterProps) {
 		super(props);
 		this.increment = this.increment.bind(this);
 		this.decrement = this.decrement.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps: CounterProps, nextState: CounterState) {
 		return shallowCompare(this, nextProps, nextState);
 	}
 
