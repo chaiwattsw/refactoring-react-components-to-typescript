@@ -14,9 +14,41 @@ const initialContext = {
 	initialized: false,
 };
 
-// type GameState = "idle" | "active" | "won" | "lost";
+type GameState = "idle" | "active" | "won" | "lost";
 
-function reducer(context, event) {
+interface BoardContext {
+	gameState: GameState;
+	cells: Cell[];
+	mines: number[];
+	initialized: boolean;
+}
+
+type BoardEvent =
+	| {
+			type: "RESET";
+			board: BoardConfig;
+	  }
+	| {
+			type: "REVEAL_CELL";
+			board: BoardConfig;
+			index: number;
+	  }
+	| {
+			type: "REVEAL_ADJACENT_CELLS";
+			board: BoardConfig;
+			index: number;
+	  }
+	| {
+			type: "MARK_CELL";
+			board: BoardConfig;
+			index: number;
+	  }
+	| {
+			type: "MARK_REMAINING_MINES";
+			board: BoardConfig;
+	  };
+
+function reducer(context: BoardContext, event: BoardEvent): BoardContext {
 	if (event.type === "RESET") {
 		return {
 			...context,
@@ -204,11 +236,11 @@ function reducer(context, event) {
 	return context;
 }
 
-// interface BoardConfig {
-// 	rows: number;
-// 	columns: number;
-// 	mines: number;
-// }
+interface BoardConfig {
+	rows: number;
+	columns: number;
+	mines: number;
+}
 
 const Board = ({ board = presets.Beginner }) => {
 	let [{ gameState, cells, mines }, send] = React.useReducer(
